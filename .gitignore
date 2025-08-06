@@ -1,0 +1,14 @@
+# Visual Studio / C#
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+
+# React / Node
+node_modules/
+build/
+dist/
+.env
