@@ -17,5 +17,15 @@ namespace WebProject_ECommerceBackend.Repositories
         public async Task AddUserAsync(User user) => await _context.Users.AddAsync(user);
 
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public void UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+        }
     }
 }

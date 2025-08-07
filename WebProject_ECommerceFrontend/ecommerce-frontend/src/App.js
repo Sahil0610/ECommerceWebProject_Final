@@ -10,6 +10,7 @@ import Login from './login';
 import Cart from './cart';
 import Checkout from './checkout';
 import ProtectedRoute from './protectedRoute'; // Import the ProtectedRoute component
+import Profile from './profile'; // Import Profile component
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/profile" element={<Profile/>} />
         {/* Protected checkout route */}
         <Route 
           path="/checkout" 

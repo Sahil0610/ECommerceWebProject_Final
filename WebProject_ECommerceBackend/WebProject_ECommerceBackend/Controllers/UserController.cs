@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebProject_ECommerceBackend.DTOs;
+using WebProject_ECommerceBackend.Entities;
 using WebProject_ECommerceBackend.Services;
 
 namespace WebProject_ECommerceBackend.Controllers
@@ -29,9 +31,37 @@ namespace WebProject_ECommerceBackend.Controllers
             return Ok(new
             {
                 message = result.Message,
-                userName = result.FullName
+                userName = result.FullName,
+                userId = result.Id
                 // you can also send JWT token here if needed
             });
         }
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<UserProfileDto>> GetProfile(int userId)
+        {
+            var profile = await _service.GetUserProfile(userId);
+            if (profile == null) return NotFound();
+            return profile;
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateProfile(int userId, [FromBody] UserProfileDto dto)
+        {
+            var result = await _service.UpdateUserProfile(userId, dto);
+            if (result == "User not found.") return NotFound(result);
+            return Ok(result);
+        }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var result = await _service.ChangePassword(dto);
+            if (result.Contains("incorrect") || result.Contains("not found"))
+                return BadRequest(result);
+            return Ok(result);
+        }
+
+
     }
 }

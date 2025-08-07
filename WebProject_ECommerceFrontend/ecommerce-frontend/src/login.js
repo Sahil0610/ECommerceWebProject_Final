@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext"; // adjust path as needed
 import { Link } from "react-router-dom";
+import { CartContext } from "./cartContext"; // adjust path as needed
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const { login } = useContext(AuthContext); // get login function from context
+  const { refreshCartCount } = useContext(CartContext); // get refreshCartCount function from context
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -20,30 +22,43 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
     try {
       const res = await fetch("https://localhost:7223/api/User/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          email: formData.email, 
-          password: formData.password 
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
         }),
       });
 
       if (res.ok) {
         const data = await res.json();
+        const { userId, userName, token } = data;
 
         setMessage("Login successful!");
-        // Save token & name for persistence
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userName", data.userName);
+        localStorage.setItem("token", token);
+        localStorage.setItem("userName", userName);
 
-        // Update global state so Header reacts
-        login(data.userName);
+        // Update AuthContext first
+        login(userName, userId);
 
-        // Redirect to home page
+        // Merge guest cart
+        const sessionId = localStorage.getItem("sessionId");
+        await fetch("https://localhost:7223/api/cart/merge", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ sessionId, userId }),
+        });
+
+        // ✅ Refresh cart count AFTER merge + login
+        await refreshCartCount();
+
         navigate("/");
       } else {
         const errorData = await res.json();
@@ -53,6 +68,7 @@ export default function Login() {
       setMessage("Error: " + error.message);
     }
   };
+
 
   return (
     <div className="max-w-md mx-auto p-6 border rounded shadow mt-10">

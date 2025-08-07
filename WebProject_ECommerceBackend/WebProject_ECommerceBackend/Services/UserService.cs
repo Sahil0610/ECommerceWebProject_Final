@@ -32,13 +32,13 @@ namespace WebProject_ECommerceBackend.Services
             return "User registered successfully.";
         }
 
-        public async Task<(bool Success, string Message, string? FullName)> Login(UserLoginDto dto)
+        public async Task<(bool Success, string Message, string? FullName, int? Id)> Login(UserLoginDto dto)
         {
             var user = await _repo.GetByEmailAsync(dto.Email);
             if (user == null || !VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt))
-                return (false, "Invalid email or password.", null);
+                return (false, "Invalid email or password.", null, null);
 
-            return (true, "Login successful.", user.FullName);
+            return (true, "Login successful.", user.FullName, user.Id);
         }
 
         private void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
@@ -54,5 +54,60 @@ namespace WebProject_ECommerceBackend.Services
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             return computedHash.SequenceEqual(hash);
         }
+
+        public async Task<UserProfileDto?> GetUserProfile(int userId)
+        {
+            var user = await _repo.GetByIdAsync(userId);
+            if (user == null) return null;
+
+            return new UserProfileDto
+            {
+                FullName = user.FullName,
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                City = user.City,
+                State = user.State,
+                PostalCode = user.PostalCode,
+                Country = user.Country
+            };
+        }
+
+        public async Task<string> UpdateUserProfile(int userId, UserProfileDto dto)
+        {
+            var user = await _repo.GetByIdAsync(userId);
+            if (user == null) return "User not found.";
+
+            user.FullName = dto.FullName;
+            user.AddressLine1 = dto.AddressLine1;
+            user.AddressLine2 = dto.AddressLine2;
+            user.City = dto.City;
+            user.State = dto.State;
+            user.PostalCode = dto.PostalCode;
+            user.Country = dto.Country;
+
+            _repo.UpdateUser(user);
+            await _repo.SaveChangesAsync();
+
+            return "Profile updated successfully.";
+        }
+
+        public async Task<string> ChangePassword(ChangePasswordDto dto)
+        {
+            var user = await _repo.GetByIdAsync(dto.UserId);
+            if (user == null) return "User not found.";
+
+            if (!VerifyPasswordHash(dto.OldPassword, user.PasswordHash, user.PasswordSalt))
+                return "Old password is incorrect.";
+
+            CreatePasswordHash(dto.NewPassword, out byte[] newHash, out byte[] newSalt);
+            user.PasswordHash = newHash;
+            user.PasswordSalt = newSalt;
+
+            _repo.UpdateUser(user);
+            await _repo.SaveChangesAsync();
+
+            return "Password changed successfully.";
+        }
+
     }
 }

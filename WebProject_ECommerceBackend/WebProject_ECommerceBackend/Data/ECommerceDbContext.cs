@@ -13,6 +13,7 @@ namespace WebProject_ECommerceBackend.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ProductReview> ProductReviews { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

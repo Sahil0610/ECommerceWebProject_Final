@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext  } from "react";
 import { Link } from "react-router-dom";
+import { getSessionId } from "./utils/session"; 
+import { AuthContext } from "./AuthContext";
+import { CartContext } from "./cartContext";
 
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantities, setQuantities] = useState({});
+  const { userId, userName } = useContext(AuthContext);
+  const { refreshCartCount } = useContext(CartContext);
 
   useEffect(() => {
     fetch("https://localhost:7223/api/Products")
@@ -38,11 +43,40 @@ function ProductList() {
     }));
   };
 
-  const handleAddToCart = (productId) => {
+  const handleAddToCart = async (productId) => {
     const quantity = quantities[productId];
     const product = products.find((p) => p.productId === productId);
-    alert(`Added ${quantity} x "${product.productName}" to cart.`);
-    // You can replace alert with actual cart logic
+    const sessionId  = getSessionId(); // for guests
+    
+    const cartItem = {
+      productId: product.productId,
+      productName: product.productName,
+      productPrice: product.productPrice,
+      quantity: quantity,
+      sessionId: userId ? null : sessionId,
+      userId: userId || null,
+    };
+
+    console.log("Adding to cart:", cartItem); 
+    try {
+      const res = await fetch("https://localhost:7223/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      });
+
+      if (res.ok) {
+        //alert(`Added ${quantity} x "${product.productName}" to cart.`);
+        refreshCartCount();
+      } else {
+        const err = await res.text();
+        alert("Error: " + err);
+      }
+    } catch (error) {
+      alert("Network error: " + error.message);
+    }
   };
 
   if (loading) return <div style={{ textAlign: "center", marginTop: 50 }}>Loading products...</div>;

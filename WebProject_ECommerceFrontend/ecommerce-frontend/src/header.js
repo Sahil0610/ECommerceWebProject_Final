@@ -1,12 +1,15 @@
-// src/components/Header.jsx
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import React, { useContext, useEffect, useState } from "react";
+import { Link} from "react-router-dom";
+import { FaShoppingCart, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { AuthContext } from "./AuthContext";
+import { getSessionId } from "./utils/session"; // Adjust path if needed
+import { CartContext } from "./cartContext"; // Adjust path if needed
+
 
 function Header() {
   const { userName, logout } = useContext(AuthContext);
-
+  const { cartCount } = useContext(CartContext);
+  
   return (
     <header style={styles.header}>
       {/* Logo */}
@@ -28,8 +31,18 @@ function Header() {
           </span>
         )}
 
-        <Link to="/cart" style={styles.iconLink}>
-          <FaShoppingCart size={22} /> Cart
+        {/* Profile icon only if logged in */}
+        {userName && (
+          <Link to="/profile" className="text-gray-700 hover:text-blue-600">
+            <FaUser size={22} />
+          </Link>
+        )}
+
+        <Link to="/cart" style={{ ...styles.iconLink, position: "relative" }}>
+          <FaShoppingCart size={22} />
+          {cartCount > 0 && (
+            <span>{cartCount > 99 ? "99+" : cartCount}</span>
+          )}
         </Link>
 
         {userName ? (
@@ -60,8 +73,27 @@ const styles = {
   actions: { display: "flex", gap: "20px", alignItems: "center" },
   iconLink: {
     display: "flex", alignItems: "center", gap: "6px",
-    textDecoration: "none", color: "#333", fontWeight: "600"
+    textDecoration: "none", color: "#333", fontWeight: "600",
+    position: "relative"
   },
+  badge: {
+    position: "absolute",
+    top: "-6px",
+    right: "-10px",
+    backgroundColor: "red",
+    color: "white",
+    borderRadius: "12px",      // pill shape instead of perfect circle
+    padding: "2px 6px",        // enough horizontal padding for 2+ digits
+    fontSize: "0.8rem",
+    fontWeight: "700",
+    minWidth: "20px",
+    textAlign: "center",
+    whiteSpace: "nowrap",      // prevent wrapping for multi-digit numbers
+    lineHeight: "1.2rem",
+    boxSizing: "border-box",
+    display: "inline-block",
+  },
+
   greeting: { fontSize: "1rem", fontWeight: "500", color: "#333" },
   logoutBtn: {
     display: "flex", alignItems: "center", gap: "6px",
