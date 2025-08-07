@@ -42,6 +42,9 @@ namespace WebProject_ECommerceBackend
             // If you have UserService class but no interface, register it as itself
             builder.Services.AddScoped<UserService>();
 
+            builder.Services.AddScoped<IProductReviewRepository, ProductReviewRepository>();
+            builder.Services.AddScoped<ProductReviewService>();
+
             var app = builder.Build();
 
             app.UseCors("AllowReactApp");
