@@ -249,21 +249,51 @@ function ProductDetail() {
 
       {/* REVIEWS SECTION */}
       <div style={{ marginTop: "50px" }}>
-        <h3>Customer Reviews</h3>
+        <h3 style={{ fontSize: "1.8rem", color: "#222", marginBottom: "20px" }}>
+          Customer Reviews
+        </h3>
         {reviews.length === 0 ? (
-          <p>No reviews yet.</p>
+          <p style={{ color: "#888", fontStyle: "italic" }}>
+            No reviews yet. Be the first to review!
+          </p>
         ) : (
           reviews.map(r => (
             <div
               key={r.id}
-              style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
+              style={{
+                marginBottom: "30px",
+                padding: "20px",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                boxShadow: "0 1px 6px rgba(0,0,0,0.1)",
+              }}
             >
-              <strong>{r.reviewerName}</strong> -
-              <span style={{ color: "#f5c518", marginLeft: 5 }}>
-                {"★".repeat(r.rating)}
-                {"☆".repeat(5 - r.rating)}
-              </span>
-              <p>{r.reviewText}</p>
+              <strong>{r.reviewerName}</strong>
+              {/* Rating */}
+              <div style={{ marginBottom: "10px" }}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    style={{
+                      color: r.rating >= star ? "#ffc107" : "#ccc",
+                      fontSize: "1.4rem",
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              {/* Review Text */}
+              <p
+                style={{
+                  fontSize: "1rem",
+                  color: "#333",
+                  marginBottom: r.imageUrl ? "15px" : "0",
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {r.reviewText}
+              </p>
               {r.imageUrl && (
                 <img
                   src={`https://localhost:7223${r.imageUrl}`}
@@ -280,39 +310,34 @@ function ProductDetail() {
 
         {/* REVIEW FORM */}
         {userName && (
-          <form onSubmit={handleSubmitReview} style={{ marginTop: "20px" }}>
-            <h4>Write a Review</h4>
-            {/* <input
-              type="text"
-              name="reviewerName"
-              value={formData.reviewerName}
-              onChange={handleInputChange}
-              placeholder="Your name"
-              required
-              style={{
-                display: "block",
-                marginBottom: "10px",
-                padding: "8px",
-                width: "300px"
-              }}
-            /> */}
+          <form
+            onSubmit={handleSubmitReview}
+            style={{
+              marginTop: "30px",
+              padding: "30px",
+              backgroundColor: "#f9f9f9",
+              borderRadius: "10px",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+            }}
+          >
+            <h4 style={{ marginBottom: "20px", fontSize: "1.5rem", color: "#333" }}>
+              Write a Review
+            </h4>
 
-            <div style={{ marginBottom: "10px" }}>
-              {[1, 2, 3, 4, 5].map(star => (
+            {/* STAR RATING */}
+            <div style={{ marginBottom: "20px" }}>
+              {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   key={star}
                   onClick={() => handleStarClick(star)}
                   onMouseEnter={() => setHoverRating(star)}
                   onMouseLeave={() => setHoverRating(0)}
                   style={{
-                    fontSize: "1.5rem",
-                    color:
-                      (hoverRating || formData.rating) >= star
-                        ? "#f5c518"
-                        : "#ccc",
+                    fontSize: "2rem",
+                    color: (hoverRating || formData.rating) >= star ? "#ffc107" : "#ccc",
                     cursor: "pointer",
-                    marginRight: "5px",
-                    transition: "color 0.2s"
+                    marginRight: "8px",
+                    transition: "color 0.2s ease-in-out",
                   }}
                 >
                   ★
@@ -320,23 +345,27 @@ function ProductDetail() {
               ))}
             </div>
 
+            {/* TEXTAREA */}
             <textarea
               name="reviewText"
               value={formData.reviewText}
               onChange={handleInputChange}
-              placeholder="Write your review..."
+              placeholder="Share your experience with this product..."
               rows={5}
               required
               style={{
-                display: "block",
-                marginBottom: "10px",
-                padding: "8px",
                 width: "100%",
-                height: "100px",
+                padding: "12px",
+                borderRadius: "6px",
+                border: "1px solid #ddd",
+                fontSize: "14px",
                 boxSizing: "border-box",
-                resize: "vertical"
+                marginBottom: "20px",
+                resize: "vertical",
               }}
             />
+
+            {/* FILE UPLOAD */}
             <div
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
@@ -347,18 +376,20 @@ function ProductDetail() {
                   setPreviewImage(URL.createObjectURL(file));
                 }
               }}
+              onClick={() => document.getElementById("file-upload").click()}
               style={{
-                marginBottom: "20px",
-                padding: "20px",
                 border: "2px dashed #ccc",
-                borderRadius: "10px",
+                borderRadius: "8px",
+                padding: "25px",
                 textAlign: "center",
+                backgroundColor: "#fff",
                 cursor: "pointer",
-                backgroundColor: "#fafafa",
+                marginBottom: "20px",
                 transition: "border-color 0.3s ease",
               }}
-              onClick={() => document.getElementById("file-upload").click()}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#007bff")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.borderColor = "#007bff")
+              }
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#ccc")}
             >
               <img
@@ -366,13 +397,12 @@ function ProductDetail() {
                 alt="Upload Icon"
                 style={{ width: "40px", opacity: 0.5 }}
               />
-              <p style={{ margin: "10px 0", color: "#333", fontSize: "16px" }}>
-                <strong>Choose a file or drag & drop it here</strong>
+              <p style={{ margin: "10px 0", fontSize: "16px", color: "#444" }}>
+                <strong>Click or drag & drop an image</strong>
               </p>
-              <p style={{ fontSize: "13px", color: "#777" }}>
+              <p style={{ fontSize: "13px", color: "#888" }}>
                 JPEG, PNG, PDF, and MP4 formats, up to 50MB
               </p>
-
               <input
                 id="file-upload"
                 type="file"
@@ -380,42 +410,47 @@ function ProductDetail() {
                 onChange={handleFileChange}
                 style={{ display: "none" }}
               />
-
               {formData.image && (
-                <p style={{ marginTop: "8px", fontSize: "14px" }}>
+                <p style={{ marginTop: "10px", fontSize: "14px", color: "#333" }}>
                   Selected file: <strong>{formData.image.name}</strong>
                 </p>
               )}
-
               {previewImage && (
                 <img
                   src={previewImage}
                   alt="Preview"
                   style={{
-                    marginTop: "10px",
+                    marginTop: "12px",
                     maxWidth: "100%",
                     maxHeight: "300px",
                     borderRadius: "8px",
                     border: "1px solid #ddd",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                   }}
                 />
               )}
             </div>
-            <br />
+
+            {/* SUBMIT BUTTON */}
             <button
               type="submit"
               style={{
-                display: "inline-block",
-                padding: "10px 20px",
-                backgroundColor: "#007bff",
+                backgroundColor: "#28a745",
                 color: "#fff",
-                borderRadius: "5px",
-                cursor: "pointer",
+                border: "none",
+                padding: "12px 24px",
+                fontSize: "15px",
                 fontWeight: "bold",
-                fontSize: "14px",
-                transition: "background-color 0.3s",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.3s ease",
               }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "#218838")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = "#28a745")
+              }
             >
               Submit Review
             </button>

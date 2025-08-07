@@ -57,7 +57,6 @@ function ProductList() {
       userId: userId || null,
     };
 
-    console.log("Adding to cart:", cartItem); 
     try {
       const res = await fetch("https://localhost:7223/api/cart", {
         method: "POST",
@@ -111,7 +110,7 @@ function ProductList() {
             onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
-            <Link to={`/products/${product.productId}`} style={{ textAlign: "center", marginBottom: 15 }}>
+            <Link to={`/products/${product.productId}`} style={{ display: "flex", justifyContent: "center", marginBottom: 15 }}>
               <img
                 src={`https://localhost:7223${product.productImageUrl}`}
                 alt={product.productName}

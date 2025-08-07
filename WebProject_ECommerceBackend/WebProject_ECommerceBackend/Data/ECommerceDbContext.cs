@@ -59,7 +59,48 @@ namespace WebProject_ECommerceBackend.Data
                 productDescription = "Traditional wooden rocking chair ideal for nurseries and porches.",
                 productPrice = 179.99M,
                 productImageUrl = "/Assets/Images/6.png"
-            });
+            },
+            new Product
+            {
+                ProductId = 6,
+                productName = "Vintage Leather Club Chair",
+                productDescription = "Comfortable vintage leather chair with wooden legs.",
+                productPrice = 189.49M,
+                productImageUrl = "/Assets/Images/7.png"
+            },
+            new Product
+            {
+                ProductId = 7,
+                productName = "Compact Swivel Task Chair",
+                productDescription = "Compact ergonomic chair with swivel base, perfect for home offices.",
+                productPrice = 129.99M,
+                productImageUrl = "/Assets/Images/8.png"
+            },
+            new Product
+            {
+                ProductId = 8,
+                productName = "Boho Rattan Accent Chair",
+                productDescription = "Hand-woven rattan chair with natural finish and cozy seat cushion.",
+                productPrice = 204.75M,
+                productImageUrl = "/Assets/Images/9.png"
+            },
+            new Product
+            {
+                ProductId = 9,
+                productName = "High-Back Executive Chair",
+                productDescription = "Premium executive office chair with adjustable height and padded armrests.",
+                productPrice = 249.00M,
+                productImageUrl = "/Assets/Images/10.png"
+            },
+            new Product
+            {
+                ProductId = 10,
+                productName = "Minimalist Wooden Chair",
+                productDescription = "Sleek wooden chair with clean lines and a modern minimalist design.",
+                productPrice = 144.25M,
+                productImageUrl = "/Assets/Images/11.png"
+            }
+            );
         }
     }
 }

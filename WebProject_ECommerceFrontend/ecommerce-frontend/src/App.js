@@ -11,6 +11,7 @@ import Cart from './cart';
 import Checkout from './checkout';
 import ProtectedRoute from './protectedRoute'; // Import the ProtectedRoute component
 import Profile from './profile'; // Import Profile component
+import Footer from './footer';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           } 
         />
       </Routes>
+      <Footer /> {/* Include Footer component */}
     </div>
   );
 }

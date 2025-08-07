@@ -1,8 +1,46 @@
 // src/HomePage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import homePage from './assets/couch.png';
+import product1 from './assets/product-1.png';
+import product2 from './assets/product-2.png';
+import product3 from './assets/product-3.png';
+import { FaPlusCircle} from "react-icons/fa";
 
 function HomePage() {
+  const featuredItems = [
+    {
+      name: "Lounge Chairs",
+      image: product1,
+    },
+    {
+      name: "Dining Sets",
+      image: product2,
+    },
+    {
+      name: "Bedroom Comfort",
+      image: product3,
+    },
+  ];
+
+  const reasons = [
+    {
+      icon: "https://img.icons8.com/dusk/64/000000/quality.png",
+      title: "Premium Quality",
+      desc: "Our furniture is crafted with the finest materials for durability.",
+    },
+    {
+      icon: "https://img.icons8.com/dusk/64/000000/delivery.png",
+      title: "Fast Delivery",
+      desc: "Quick and reliable shipping right to your doorstep.",
+    },
+    {
+      icon: "https://img.icons8.com/dusk/64/000000/customer-support.png",
+      title: "Excellent Support",
+      desc: "Friendly and efficient customer service to assist you.",
+    },
+  ];
+
   return (
     <div className="font-sans">
       {/* Hero Section */}
@@ -10,14 +48,14 @@ function HomePage() {
         {/* Left Text Content */}
         <div className="md:w-1/2 text-center md:text-left">
           <h1 className="text-6xl font-extrabold mb-6 text-gray-900 leading-tight">
-            Welcome to <span className="text-yellow-500">FURNI.</span>
+            Discover <span className="text-yellow-500">FURNI</span> — Modern Elegance.
           </h1>
           <p className="text-xl text-gray-700 mb-8">
-            Modern, Comfortable, and Affordable Furniture for Your Home
+            Premium furniture solutions to transform your home.
           </p>
           <Link to="/products">
             <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-10 py-4 rounded-lg shadow-lg transition duration-300">
-              Shop Now
+              Explore Collection
             </button>
           </Link>
         </div>
@@ -25,52 +63,43 @@ function HomePage() {
         {/* Right Image */}
         <div className="md:w-1/2">
           <img
-            src="https://images.unsplash.com/photo-1616627982473-6e9b78963294?auto=format&fit=crop&w=900&q=80"
-            alt="Furniture Hero"
-            className="rounded-xl shadow-xl w-full max-h-[500px] object-cover"
+            src={homePage}
+            alt="Modern Living Room"
           />
         </div>
       </section>
 
-      {/* Featured Collections */}
+      {/* Featured Products Section */}
       <section className="py-20 px-6 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold mb-16 text-center text-gray-900">
-          Featured Collections
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
-          {[
-            {
-              name: "Lounge Chairs",
-              image:
-                "https://images.unsplash.com/photo-1578898887565-afa162a1569a?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              name: "Dining Sets",
-              image:
-                "https://images.unsplash.com/photo-1582582425174-989c87b50d70?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              name: "Bedroom Comfort",
-              image:
-                "https://images.unsplash.com/photo-1595526114035-9e9a1f5293a9?auto=format&fit=crop&w=800&q=80",
-            },
-          ].map((item, index) => (
-            <Link
-              key={index}
-              to="/products"
-              className="relative rounded-xl overflow-hidden shadow-lg group cursor-pointer"
-            >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full h-72 object-cover group-hover:scale-110 transform transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <h3 className="text-white text-3xl font-semibold drop-shadow-lg">
-                  {item.name}
-                </h3>
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          {/* Column 1: Text Content */}
+          <div className="col-span-1">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Crafted with excellent material.</h2>
+            <p className="text-gray-600 mb-6">
+              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.
+            </p>
+            <Link to="/products">
+              <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow transition duration-300">
+                Explore
+              </button>
             </Link>
+          </div>
+
+          {/* Column 2–4: Product Cards */}
+          {featuredItems.map((item, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden group cursor-pointer">
+              <Link to="/products" className="block relative">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{item.name}</h3>
+                  <strong className="text-yellow-500 text-lg">$50.00</strong>
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -79,23 +108,7 @@ function HomePage() {
       <section className="bg-gray-100 py-20 px-6 max-w-6xl mx-auto text-center rounded-xl shadow-lg">
         <h2 className="text-4xl font-bold mb-14 text-gray-900">Why Choose FURNI?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-14">
-          {[
-            {
-              icon: "https://img.icons8.com/dusk/64/000000/quality.png",
-              title: "Premium Quality",
-              desc: "Our furniture is crafted with the finest materials for durability.",
-            },
-            {
-              icon: "https://img.icons8.com/dusk/64/000000/delivery.png",
-              title: "Fast Delivery",
-              desc: "Quick and reliable shipping right to your doorstep.",
-            },
-            {
-              icon: "https://img.icons8.com/dusk/64/000000/customer-support.png",
-              title: "Excellent Support",
-              desc: "Friendly and efficient customer service to assist you.",
-            },
-          ].map((item, index) => (
+          {reasons.map((item, index) => (
             <div
               key={index}
               className="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300"
