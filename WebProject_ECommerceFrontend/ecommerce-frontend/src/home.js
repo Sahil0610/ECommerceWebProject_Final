@@ -76,7 +76,7 @@ function HomePage() {
           <div className="col-span-1">
             <h2 className="text-4xl font-bold mb-4 text-gray-900">Crafted with excellent material.</h2>
             <p className="text-gray-600 mb-6">
-              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.
+              Furni brings style and comfort to your home. Explore our curated collection of modern furniture and home essentials designed to enhance every living space.
             </p>
             <Link to="/products">
               <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow transition duration-300">

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebProject_ECommerceBackend.DTOs;
 using WebProject_ECommerceBackend.Entities;
 using WebProject_ECommerceBackend.Services;
@@ -32,8 +31,8 @@ namespace WebProject_ECommerceBackend.Controllers
             {
                 message = result.Message,
                 userName = result.FullName,
-                userId = result.Id
-                // you can also send JWT token here if needed
+                userId = result.Id,
+                // token can be added if your service returns it
             });
         }
 
@@ -61,7 +60,5 @@ namespace WebProject_ECommerceBackend.Controllers
                 return BadRequest(result);
             return Ok(result);
         }
-
-
     }
 }

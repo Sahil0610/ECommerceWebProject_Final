@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "./AuthContext"; // adjust path if different
+import { getSessionId } from "./utils/session";
+import { CartContext } from "./cartContext";
 
 function ProductDetail() {
   const { id } = useParams();
-  const { userName } = useContext(AuthContext);
+  const { userId, userName } = useContext(AuthContext);
+  const { refreshCartCount } = useContext(CartContext);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -67,8 +70,35 @@ function ProductDetail() {
   const handlePlusQuantity = () => setQuantity(quantity + 1);
   const handleMinusQuantity = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
 
-  const handleAddToCart = () => {
-    alert(`Added ${quantity} x "${product.productName}" to cart.`);
+  const handleAddToCart = async () => {
+    if (!product) return;
+
+    const cartItem = {
+      productId: product.productId,
+      productName: product.productName,
+      productPrice: product.productPrice,
+      quantity: quantity,
+      sessionId: userId ? null : getSessionId(),
+      userId: userId || null
+    };
+
+    try {
+      const res = await fetch("https://localhost:7223/api/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cartItem)
+      });
+
+      if (res.ok) {
+        //alert(`Added ${quantity} x "${product.productName}" to cart.`);
+        refreshCartCount();
+      } else {
+        const err = await res.text();
+        alert("Error: " + err);
+      }
+    } catch (err) {
+      alert("Network error: " + err.message);
+    }
   };
 
   const handleInputChange = e => {

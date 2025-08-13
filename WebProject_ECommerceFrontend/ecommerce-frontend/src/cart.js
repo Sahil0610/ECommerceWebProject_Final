@@ -75,10 +75,47 @@ function CartPage() {
     (total, item) => total + item.productPrice * item.quantity,
     0
   );
+if (loading) return <p style={{ textAlign: "center" }}>Loading cart...</p>;
+if (cartItems.length === 0)
+  return (
+    <div
+      style={{
+        textAlign: "center",
+        marginTop: 100,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 20,
+      }}
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+        alt="Empty cart"
+        style={{ width: 100, height: 100, opacity: 0.7 }}
+      />
+      <h2 style={{ color: "#555", margin: 0 }}>Your cart is empty</h2>
+      <p style={{ color: "#777", margin: 0 }}>
+        Looks like you haven't added anything to your cart yet.
+      </p>
+      <button
+        onClick={() => (window.location.href = "/products")}
+        style={{
+          padding: "10px 20px",
+          fontSize: "1rem",
+          backgroundColor: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: 6,
+          cursor: "pointer",
+          boxShadow: "0 4px 10px rgba(0, 123, 255, 0.3)",
+          marginTop: 10,
+        }}
+      >
+        Continue Shopping
+      </button>
+    </div>
+  );
 
-  if (loading) return <p style={{ textAlign: "center" }}>Loading cart...</p>;
-  if (cartItems.length === 0)
-    return <p style={{ textAlign: "center", marginTop: 40 }}>Your cart is empty.</p>;
 
   return (
     <div style={{ maxWidth: 1000, margin: "40px auto", padding: "0 20px" }}>

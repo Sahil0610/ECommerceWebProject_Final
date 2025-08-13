@@ -5,11 +5,15 @@ using WebProject_ECommerceBackend.Entities;
 using WebProject_ECommerceBackend.Interfaces;
 
 namespace WebProject_ECommerceBackend.Services
-{
+{   
     public class UserService
     {
         private readonly IUserRepository _repo;
-        public UserService(IUserRepository repo) => _repo = repo;
+
+        public UserService(IUserRepository repo)
+        {
+            _repo = repo;
+        }
 
         public async Task<string> Register(UserRegisterDto dto)
         {
@@ -38,9 +42,12 @@ namespace WebProject_ECommerceBackend.Services
             if (user == null || !VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt))
                 return (false, "Invalid email or password.", null, null);
 
+           // var token = _jwtService.GenerateToken(user);
+
             return (true, "Login successful.", user.FullName, user.Id);
         }
 
+        // existing methods...
         private void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
         {
             using var hmac = new HMACSHA512();
@@ -108,6 +115,5 @@ namespace WebProject_ECommerceBackend.Services
 
             return "Password changed successfully.";
         }
-
     }
 }

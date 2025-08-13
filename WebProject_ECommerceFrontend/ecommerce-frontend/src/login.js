@@ -1,48 +1,38 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./AuthContext"; // adjust path as needed
-import { Link } from "react-router-dom";
-import { CartContext } from "./cartContext"; // adjust path as needed
+import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import { CartContext } from "./cartContext";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode"; // ✅ Correct import
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // get login function from context
-  const { refreshCartCount } = useContext(CartContext); // get refreshCartCount function from context
+  const { login } = useContext(AuthContext);
+  const { refreshCartCount } = useContext(CartContext);
+  const [googleUserName, setGoogleUserName] = useState("");
 
   const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Existing email/password login
   const handleSubmit = async (e) => {
-  e.preventDefault();
-
+    e.preventDefault();
     try {
       const res = await fetch("https://localhost:7223/api/User/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        }),
+        body: JSON.stringify(formData),
       });
 
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
         const { userId, userName, token } = data;
 
-        setMessage("Login successful!");
         localStorage.setItem("token", token);
         localStorage.setItem("userName", userName);
-
-        // Update AuthContext first
         login(userName, userId);
 
         // Merge guest cart
@@ -56,16 +46,28 @@ export default function Login() {
           body: JSON.stringify({ sessionId, userId }),
         });
 
-        // ✅ Refresh cart count AFTER merge + login
         await refreshCartCount();
-
         navigate("/");
       } else {
-        const errorData = await res.json();
-        setMessage(errorData.message || "Login failed");
+        setMessage(data.message || "Login failed");
       }
-    } catch (error) {
-      setMessage("Error: " + error.message);
+    } catch (err) {
+      setMessage("Error: " + err.message);
+    }
+  };
+
+  // ✅ Google login without backend
+  const handleGoogleLogin = (credentialResponse) => {
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+      const name = decoded.name;
+
+      setGoogleUserName(name);
+      localStorage.setItem("userName", name);
+
+      setMessage(`Hello, ${name}! You are logged in with Google.`);
+    } catch (err) {
+      setMessage("Google login error: " + err.message);
     }
   };
 
@@ -74,8 +76,9 @@ export default function Login() {
     <div className="max-w-md mx-auto p-6 border rounded shadow mt-10">
       <h2 className="text-2xl mb-4 font-semibold">Login</h2>
       {message && <p className="mb-4 text-red-600">{message}</p>}
-      <form onSubmit={handleSubmit}>
 
+      {/* Email/Password login */}
+      <form onSubmit={handleSubmit}>
         <label className="block mb-2 font-medium">Email</label>
         <input
           type="email"
@@ -96,21 +99,28 @@ export default function Login() {
           className="w-full p-2 mb-4 border rounded"
         />
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 w-full"
         >
           Login
         </button>
 
         <p className="mt-4 text-center">
-        Don't have an account?{" "}
-        <Link to="/signup" className="text-blue-600 hover:underline">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-blue-600 hover:underline">
             Sign Up
-        </Link>
+          </Link>
         </p>
       </form>
 
+      {/* Google Login */}
+      <div className="mt-6 text-center">
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => setMessage("Google login failed")}
+        />
+      </div>
     </div>
   );
 }

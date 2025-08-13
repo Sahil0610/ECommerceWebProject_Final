@@ -5,7 +5,7 @@ import Sofa from "./assets/sofa.png"; // Adjust path if needed
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 pt-20 relative">
+    <footer className="bg-gray-100 pt-20 mt-16 relative">
       {/* Sofa image */}
       <div className="absolute top-0 left-0 w-full flex justify-center -translate-y-1/2">
         {/* <img src={Sofa} alt="Sofa" className="w-80 h-auto object-contain" /> */}
@@ -41,7 +41,7 @@ const Footer = () => {
           <div className="col-span-1">
             <h2 className="text-3xl font-bold mb-4">Furni<span className="text-yellow-500">.</span></h2>
             <p className="text-gray-600 mb-4">
-              Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada.
+              Furni is your go-to destination for stylish and comfortable furniture. Explore our curated collection of home essentials designed to enhance your living space.
             </p>
             <div className="flex gap-4 text-gray-600 text-xl">
               <a href="#"><FaFacebookF /></a>
@@ -78,9 +78,11 @@ const Footer = () => {
             </div>
             <div>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li><Link to="#">Nordic Chair</Link></li>
-                <li><Link to="#">Kruzo Aero</Link></li>
-                <li><Link to="#">Ergonomic Chair</Link></li>
+                <li><Link to="#">Living Room Sofas</Link></li>
+                <li><Link to="#">Ergonomic Office Chairs</Link></li>
+                <li><Link to="#">Dining Tables</Link></li>
+                <li><Link to="#">Bedroom Wardrobes</Link></li>
+                <li><Link to="#">Outdoor Furniture</Link></li>
               </ul>
             </div>
           </div>
@@ -89,7 +91,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t pt-6 mb-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
         <p className="text-center md:text-left mb-2 md:mb-0">
-            &copy; {new Date().getFullYear()} All Rights Reserved. Designed with Love by <a className="underline" href="https://untree.co">Untree.co</a>. Distributed by <a className="underline" href="https://themewagon.com">ThemeWagon</a>
+            &copy; {new Date().getFullYear()} All Rights Reserved. Designed with Love by <a className="underline">Sahil Shahbuddin & Sharandeep Kaur</a>.
         </p>
         <ul className="flex gap-4">
             <li><Link to="#">Terms & Conditions</Link></li>

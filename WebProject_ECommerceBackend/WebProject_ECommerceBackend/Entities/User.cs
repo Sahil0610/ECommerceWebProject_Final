@@ -36,6 +36,10 @@ namespace WebProject_ECommerceBackend.Entities
 
         [MaxLength(100)]
         public string Country { get; set; } = string.Empty;
+
+        //New field for Google Sign-In
+        //[MaxLength(50)]
+        //public string? GoogleId { get; set; } // Nullable so old users aren’t affected
     }
 
 }

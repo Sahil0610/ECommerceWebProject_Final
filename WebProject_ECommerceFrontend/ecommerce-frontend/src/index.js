@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from "./AuthContext";
 import { CartProvider } from "./cartContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +14,9 @@ root.render(
     <BrowserRouter>      {/* Wrap App inside BrowserRouter */}
       <AuthProvider> {/* Assuming you have an AuthProvider for context */} 
         <CartProvider> {/* Add this */}
-          <App />
+          <GoogleOAuthProvider clientId="889689876879-2qern9bdu1etlkmk5hl6q6007ru781d7.apps.googleusercontent.com">
+            <App />
+          </GoogleOAuthProvider>
         </CartProvider>
       </AuthProvider> {/* Include AuthProvider to provide auth context */}
     </BrowserRouter>

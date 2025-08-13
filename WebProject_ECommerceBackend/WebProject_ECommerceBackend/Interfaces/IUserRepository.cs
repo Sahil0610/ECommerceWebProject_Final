@@ -11,5 +11,7 @@ namespace WebProject_ECommerceBackend.Interfaces
         Task SaveChangesAsync();
 
         void UpdateUser(User user);
+
+        //Task<User?> GetByGoogleIdAsync(string googleId);
     }
 }
