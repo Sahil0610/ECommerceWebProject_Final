@@ -233,6 +233,7 @@ function CartPage() {
         </button>
       </div>
 
+// Add to Cart Button
       {/* Modal Dialog */}
       {showModal && (
         <div style={modalOverlayStyle}>
