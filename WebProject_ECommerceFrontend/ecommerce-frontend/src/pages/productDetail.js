@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "./AuthContext"; // adjust path if different
-import { getSessionId } from "./utils/session";
-import { CartContext } from "./cartContext";
+import { AuthContext } from "../context/AuthContext"; // adjust path if different
+import { getSessionId } from "../utils/session";
+import { CartContext } from "../context/cartContext";
 
 function ProductDetail() {
   const { id } = useParams();

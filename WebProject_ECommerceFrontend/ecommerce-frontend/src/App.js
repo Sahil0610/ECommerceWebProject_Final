@@ -1,17 +1,17 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import ProductList from './productList';     
-import ProductDetail from './productDetail';
-import Header from './header';  
-import HomePage from './home'; 
-import Signup from './signup';
-import Login from './login';
-import Cart from './cart';
-import Checkout from './checkout';
+import ProductList from './pages/productList';     
+import ProductDetail from './pages/productDetail';
+import Header from './components/header';  
+import HomePage from './pages/home'; 
+import Signup from './pages/signup';
+import Login from './pages/login';
+import Cart from './pages/cart';
+import Checkout from './pages/checkout';
 import ProtectedRoute from './protectedRoute'; // Import the ProtectedRoute component
-import Profile from './profile'; // Import Profile component
-import Footer from './footer';
+import Profile from './pages/profile'; // Import Profile component
+import Footer from './components/footer';
 
 
 function App() {

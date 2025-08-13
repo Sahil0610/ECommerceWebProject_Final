@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext  } from "react";
 import { Link } from "react-router-dom";
-import { getSessionId } from "./utils/session"; 
-import { AuthContext } from "./AuthContext";
-import { CartContext } from "./cartContext";
+import { getSessionId } from "../utils/session"; 
+import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/cartContext";
 
 function ProductList() {
   const [products, setProducts] = useState([]);

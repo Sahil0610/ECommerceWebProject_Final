@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getSessionId } from "./utils/session";
-import { CartContext } from "./cartContext";
+import { getSessionId } from "../utils/session";
+import { CartContext } from "../context/cartContext";
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);

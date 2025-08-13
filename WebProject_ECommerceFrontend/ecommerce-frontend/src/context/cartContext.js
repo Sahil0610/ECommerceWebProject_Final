@@ -1,7 +1,7 @@
 // src/CartContext.jsx
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { AuthContext } from "./AuthContext";
-import { getSessionId } from "./utils/session"; // adjust path
+import { AuthContext } from "../context/AuthContext";
+import { getSessionId } from "../utils/session"; // adjust path
 
 export const CartContext = createContext();
 

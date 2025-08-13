@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link} from "react-router-dom";
 import { FaShoppingCart, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { AuthContext } from "./AuthContext";
-import { getSessionId } from "./utils/session"; // Adjust path if needed
-import { CartContext } from "./cartContext"; // Adjust path if needed
+import { AuthContext } from "../context/AuthContext";
+import { getSessionId } from "../utils/session"; // Adjust path if needed
+import { CartContext } from "../context/cartContext"; // Adjust path if needed
 
 
 function Header() {

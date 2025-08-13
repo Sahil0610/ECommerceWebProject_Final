@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
-import { CartContext } from "./cartContext";
+import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/cartContext";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode"; // ✅ Correct import
 

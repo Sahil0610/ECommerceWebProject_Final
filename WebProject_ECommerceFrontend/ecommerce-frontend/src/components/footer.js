@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin, FaPaperPlane } from "react-icons/fa";
-import Envelope from "./assets/envelope-outline.svg"; // Adjust path if needed
-import Sofa from "./assets/sofa.png"; // Adjust path if needed
+import Envelope from "../assets/envelope-outline.svg"; // Adjust path if needed
+import Sofa from "../assets/sofa.png"; // Adjust path if needed
 
 const Footer = () => {
   return (

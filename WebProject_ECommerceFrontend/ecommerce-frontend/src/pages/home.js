@@ -1,10 +1,10 @@
 // src/HomePage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import homePage from './assets/couch.png';
-import product1 from './assets/product-1.png';
-import product2 from './assets/product-2.png';
-import product3 from './assets/product-3.png';
+import homePage from '../assets/couch.png';
+import product1 from '../assets/product-1.png';
+import product2 from '../assets/product-2.png';
+import product3 from '../assets/product-3.png';
 import { FaPlusCircle} from "react-icons/fa";
 
 function HomePage() {
@@ -25,7 +25,7 @@ function HomePage() {
 
   const reasons = [
     {
-      icon: "https://img.icons8.com/dusk/64/000000/quality.png",
+      icon: "https://img.icons8.com/dusk/64/000000/customer-support.png",
       title: "Premium Quality",
       desc: "Our furniture is crafted with the finest materials for durability.",
     },
