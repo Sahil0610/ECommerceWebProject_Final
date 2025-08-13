@@ -7,6 +7,8 @@ import product2 from '../assets/product-2.png';
 import product3 from '../assets/product-3.png';
 import { FaPlusCircle} from "react-icons/fa";
 
+// HomePage Component
+// This component renders the home page of the e-commerce site
 function HomePage() {
   const featuredItems = [
     {
@@ -23,6 +25,7 @@ function HomePage() {
     },
   ];
 
+  // Reasons to choose FURNI
   const reasons = [
     {
       icon: "https://img.icons8.com/dusk/64/000000/customer-support.png",
